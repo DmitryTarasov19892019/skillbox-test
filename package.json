@@ -1,16 +1,70 @@
 {
-  "name": "skillbox-test",
+  "name": "timers-auth",
   "version": "1.0.0",
+  "author": "",
   "description": "",
+  "keywords": [],
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test:db": "node -e \"require('dotenv').config(); const { Pool } = require('pg'); console.log('Testing with host:', process.env.PGHOST); const pool = new Pool({ host: process.env.PGHOST, port: process.env.PGPORT, user: process.env.PGUSER, password: process.env.PGPASSWORD, database: process.env.PGDATABASE, ssl: { rejectUnauthorized: false } }); pool.query('SELECT 1').then(() => { console.log('✓ Connected to Neon'); process.exit(0); }).catch(err => { console.error('✗ Connection failed:', err.message); console.error('Full error:', err); process.exit(1); });\"",
+    "migrate": "node -e \"require('./index.js').runMigrations()\"",
+    "prettify": "prettier --write",
+    "prettify:all": "prettier --write \"./**/*.{js,json}\"",
+    "lint": "eslint",
+    "lint:all": "eslint \"**/*.js\""
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^25.3.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-jest": "^23.8.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.1.4",
+    "nodemon": "^2.0.22",
+    "prettier": "^2.0.4"
+  },
+  "lint-staged": {
+    "*.js": [
+      "npm run prettify",
+      "npm run lint"
+    ],
+    "*.json": [
+      "npm run prettify"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emirotin/node-template.git"
+  },
+  "bugs": {
+    "url": "https://github.com/emirotin/node-template/issues"
+  },
+  "homepage": "https://github.com/emirotin/node-template#readme",
   "dependencies": {
-    "express": "^5.1.0",
-    "pg": "^8.16.3"
+    "bcryptjs": "^3.0.3",
+    "body-parser": "^1.19.0",
+    "cookie": "^1.1.1",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.2.4",
+    "express": "^4.22.1",
+    "nanoid": "^3.3.11",
+    "nunjucks": "^3.2.4",
+    "pg": "^8.18.0",
+    "ws": "^8.19.0"
   }
 }
